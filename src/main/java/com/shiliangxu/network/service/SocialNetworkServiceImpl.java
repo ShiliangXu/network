@@ -62,7 +62,7 @@ public class SocialNetworkServiceImpl implements SocialNetworkService  {
                         for(int j=0;j<nodes.size();j++){
                             //根据当前item的信息来进行赋值
                             if(item[k].equals(nodes.get(j).getName())){
-                                String str = nodes.get(i).getType()+"||"+item[k]+"*"+j+"*";
+                                String str = nodes.get(i).getType()+"S"+j;
                                 nodes.get(i).setType(str);
                                 break;
                             }
@@ -80,6 +80,25 @@ public class SocialNetworkServiceImpl implements SocialNetworkService  {
 
     @Override
     public List<Link> getLinks(List<Node> nodes) {
-        return null;
+        List<Link> links = new ArrayList();
+        for(int j=0;j<nodes.size();j++){
+            String message = nodes.get(j).getType();
+            List<Integer> a= new ArrayList();
+            String m[] = message.split("S");
+            for(int i=0;i<m.length;i++){
+                if(m[i].equals("")){
+                    continue;
+                }
+                System.out.println(m[i]);
+                int pnode = nodes.get(j).getId();
+                int nnode = Integer.parseInt(m[i]);
+                links.add(new Link(pnode,nnode));
+            }
+
+
+
+        }
+        return links;
     }
+
 }

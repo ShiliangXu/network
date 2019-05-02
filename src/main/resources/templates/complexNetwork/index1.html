@@ -15,38 +15,54 @@
 <script type="text/javascript" th:inline="javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
-
     var categories = [];
-    categories[0] = {name: 'degree>=6'}
-    categories[1] = {name: 'degree>=10'}
-    categories[2] = {name: 'degree>=20'}
-    categories[3] = {name: 'degree>=30'}
-    categories[4] = {name: 'degree>=40'}
-    categories[5] = {name: 'degree>=50'}
-    categories[6] = {name: 'degree>=100'}
-    categories[7] = {name: 'degree>=200'}
+
+    categories[0] = {
+        name: 'degree>=6'
+    }
+    categories[1] = {
+        name: 'degree>=10'
+    }
+    categories[2] = {
+        name: 'degree>=20'
+    }
+    categories[3] = {
+        name: 'degree>=30'
+    }
+    categories[4] = {
+        name: 'degree>=40'
+    }
+    categories[5] = {
+        name: 'degree>=50'
+    }
+    categories[6] = {
+        name: 'degree>=100'
+    }
+    categories[7] = {
+        name: 'degree>=200'
+    }
 
 
 
     /* <![CDATA[ */
     var nodes = new Array();
     var totalNumber = [[${model.totalnumber}]];
-    var nodesArray= [[${model.nodes}]];
+    var darray= [[${model.degrees}]];
     for(var j=0;j<totalNumber;j++){
         nodes[j] = {
             id: j,
-            category: parseInt((nodesArray[j].value/10)),
-            name: 'node'+j,
-            value: nodesArray[j].value,
-            url: "#"
+            category: parseInt((darray[j].value/10)),
+            name: darray[j].name+'  Degree',
+            value: darray[j].value,
+            url: "http://www.stepday.com/blog/"
         }
-        if((nodesArray[j].value)>=50){
+        if((darray[j].value)>=50){
             nodes[j].category = 5;
         }
-        if((nodesArray[j].value)>=100){
+        if((darray[j].value)>=100){
             nodes[j].category = 6;
         }
-        if((nodesArray[j].value)>=200){
+        if((darray[j].value)>=200){
             nodes[j].category = 7;
         }
 
@@ -55,7 +71,7 @@
     if([[${model.symbolSize}]]<-1){
 
         for(var k=0; k<totalNumber;k++){
-            nodes[k].symbolSize = Math.log(nodesArray[k].value)/Math.log(totalNumber)*10;
+            nodes[k].symbolSize = Math.log(darray[k].value)/Math.log(totalNumber)*10;
         }
 
     }else{
@@ -71,17 +87,24 @@
 
 
 
+
+
+
     var links = new Array();
-    var linksArray = [[${model.links}]];
+
+    var links0 = [[${model.links}]];
     for(var i=0;i<links0.length;i++){
 
+
         links[i] = {
-            source: linksArray[i].pnode,
-            target: linksArray[i].nnode,
+            source: links0[i].pnode,
+            target: links0[i].nnode,
             weight: 10,
             lineStyle: {
                 color: [[${model.color}]]
             }
+
+
         };
 
 
@@ -102,8 +125,8 @@
                 return a.name;
             })
         }],
-        animationDuration: 1500,
-        animationEasingUpdate: 'quinticInOut',
+         animationDuration: 1500,
+         animationEasingUpdate: 'quinticInOut',
 
         series : [
             {
@@ -125,10 +148,10 @@
                 force: {
                     repulsion: 100
                 },
-                emphasis: {
-                    lineStyle: {
-                        width: 10
-                    }
+                 emphasis: {
+                     lineStyle: {
+                         width: 10
+                     }
                 }
 
             }

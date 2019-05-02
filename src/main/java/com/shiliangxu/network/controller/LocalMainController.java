@@ -81,11 +81,17 @@ public class LocalMainController {
         byte[][] adjacencyMatrix;
         adjacencyMatrix = linkService.mainService(totalnumber,3,initialprobability,influencecoefficient);
         //由于并不能向js中传递二维数组，这里需要把二维数组转成link实体,然后还要转成json格式
-        List<Link> links = linkService.turnToLinks(adjacencyMatrix,totalnumber);
-        Object linksJ= JSON.toJSON(links);
+
+//        //显示各个节点度数的一维数组
+//        List<Node> nodes = linkService.getALLDD(adjacencyMatrix,totalnumber);
+//        Object nodesJ= JSON.toJSON(nodes);
+
         //显示各个节点度数的一维数组
-        List<Node> nodes = linkService.getALLDD(adjacencyMatrix,totalnumber);
+        List<Node> nodes = socialNetworkService.getNodes("D:\\MyClouds\\PROJECT\\network\\src\\main\\java\\com\\shiliangxu\\other\\friends_drop_duplicate.csv");
         Object nodesJ= JSON.toJSON(nodes);
+
+        List<Link> links = socialNetworkService.getLinks(nodes);
+        Object linksJ= JSON.toJSON(links);
 
         //边显示方式
         if(EDGES.equals("BY FORCE")){
@@ -109,8 +115,8 @@ public class LocalMainController {
 
         model.addAttribute("color", COLOR);
         model.addAttribute("links", linksJ);
-        model.addAttribute("nodes", nodesJ);
-        model.addAttribute("totalnumber", totalnumber);
+        model.addAttribute("degrees", nodesJ);
+        model.addAttribute("totalnumber", 1000);
         model.addAttribute("initialprobability", initialprobability);
         model.addAttribute("influencecoefficient", influencecoefficient);
         model.addAttribute("Nbiggest", Nbiggest);
