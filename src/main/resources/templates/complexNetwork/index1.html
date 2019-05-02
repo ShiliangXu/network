@@ -1,0 +1,166 @@
+<!--图表显示内容部分，异步显示在index界面-->
+<body class="bg-light">
+
+<div class="container">
+    <div class="row">
+        <!--图形容器-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" id="main" style="height: 600px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Data For Chart-->
+<script type="text/javascript" th:inline="javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    var categories = [];
+
+    categories[0] = {
+        name: 'degree>=6'
+    }
+    categories[1] = {
+        name: 'degree>=10'
+    }
+    categories[2] = {
+        name: 'degree>=20'
+    }
+    categories[3] = {
+        name: 'degree>=30'
+    }
+    categories[4] = {
+        name: 'degree>=40'
+    }
+    categories[5] = {
+        name: 'degree>=50'
+    }
+    categories[6] = {
+        name: 'degree>=100'
+    }
+    categories[7] = {
+        name: 'degree>=200'
+    }
+
+
+
+    /* <![CDATA[ */
+    var nodes = new Array();
+    var totalNumber = [[${model.totalnumber}]];
+    var darray= [[${model.degrees}]];
+    for(var j=0;j<totalNumber;j++){
+        nodes[j] = {
+            id: j,
+            category: parseInt((darray[j].value/10)),
+            name: 'node'+j,
+            value: darray[j].value,
+            url: "http://www.stepday.com/blog/"
+        }
+        if((darray[j].value)>=50){
+            nodes[j].category = 5;
+        }
+        if((darray[j].value)>=100){
+            nodes[j].category = 6;
+        }
+        if((darray[j].value)>=200){
+            nodes[j].category = 7;
+        }
+
+    }
+
+    if([[${model.symbolSize}]]<-1){
+
+        for(var k=0; k<totalNumber;k++){
+            nodes[k].symbolSize = Math.log(darray[k].value)/Math.log(totalNumber)*10;
+        }
+
+    }else{
+        nodes.forEach(function (node) {
+            node.symbolSize = [[${model.symbolSize}]];
+        });
+    }
+
+
+    nodes.forEach(function (node) {
+        node.draggable = true;
+    });
+
+
+
+
+
+
+    var links = new Array();
+
+    var links0 = [[${model.links}]];
+    for(var i=0;i<links0.length;i++){
+
+
+        links[i] = {
+            source: links0[i].pnode,
+            target: links0[i].nnode,
+            weight: 10,
+            lineStyle: {
+                color: [[${model.color}]]
+            }
+
+
+        };
+
+
+    }
+    /* ]]> */
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: 'xushiliang.com',
+            subtext: 'Default layout',
+            top: 'bottom',
+            left: 'right'
+        },
+        tooltip: {},
+        legend: [{
+            // selectedMode: 'single',
+            data: categories.map(function (a) {
+                return a.name;
+            })
+        }],
+         animationDuration: 1500,
+         animationEasingUpdate: 'quinticInOut',
+
+        series : [
+            {
+                name: 'Degree',
+                type: 'graph',
+                layout: [[${model.layout}]],
+                //force circular
+                data: nodes,
+                links: links,
+
+                categories: categories,
+                roam: true,
+                focusNodeAdjacency: true,
+                label: {
+                    normal: {
+                        position: 'right'
+                    }
+                },
+                force: {
+                    repulsion: 100
+                },
+                 emphasis: {
+                     lineStyle: {
+                         width: 10
+                     }
+                }
+
+            }
+        ],
+
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+

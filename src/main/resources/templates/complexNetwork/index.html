@@ -1,0 +1,153 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../../../favicon.ico">
+
+  <title>Small World Model</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/bootstrap-4.0.0/dist/css/bootstrap.min.css" th:href="@{/complexnetwork/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="form-validation.css" th:href="@{/complexnetwork/form-validation.css}" rel="stylesheet">
+  <!-- 引入 ECharts 文件 -->
+  <script src="echarts.min.js" th:src="@{/complexnetwork/echart/echarts.js}"></script>
+
+
+</head>
+
+<body class="bg-light">
+
+
+<div class="py-5 text-center">
+  <h2>Small World Model Generation Options</h2>
+</div>
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-7">
+      <div id="rightContainer">
+        <!--这里是显示图表的地方-->
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="container">
+
+        <div class="container">
+          <!--form-->
+          <form class="needs-validation"  id = "userForm" novalidate>
+            <!--action="#" th:action="@{/generate}" method="post"-->
+            <h4 class="mb-3">基础参数 Basic Parameters</h4>
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <label for="totalNumber">Total number of nodes N≤1000</label>
+                <input type="number" value="50"  min="7" step="10" max="1000" class="form-control" id="totalNumber" name="totalNumber" placeholder=""  required>
+                <div class="invalid-feedback">
+                  Total number of nodes N is required.
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                <label for="initialProbability">Initial probability P∈[0,1]</label>
+                <input type="number" value="0.0"  min="0.0" step="0.001" max="1" class="form-control" id="initialProbability" name="initialProbability" placeholder=""  required>
+                <div class="invalid-feedback">
+                  Initial probability P is required.
+                </div>
+              </div>
+
+
+              <div class="col-md-12 mb-3">
+                <label for="influenceCoefficient">Influence coefficient of distance T∈[0,1]</label>
+                <input type="number" value="0.0"  min="0.0" step="0.001" max="1" class="form-control" id="influenceCoefficient" name="influenceCoefficient" placeholder=""  required>
+                <div class="invalid-feedback">
+                  Influence coefficient of distance T.
+                </div>
+              </div>
+            </div>
+
+
+            <h4 class="mb-3">显示设置 Display Options</h4>
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <label for="EDGES">EDGES</label>
+                <select class="custom-select d-block w-100" id="EDGES" name="EDGES" required>
+                  <option value="BY FORCE" >BY FORCE</option>
+                  <option value="BY CIRCULAR">BY CIRCULAR</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid EDGES option.
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                <label for="NODES">NODES</label>
+                <select class="custom-select d-block w-100" id="NODES" name="NODES" required>
+                  <option value="SHOW DEGREES">SHOW DEGREES</option>
+                  <option value="NOT SHOW">NOT SHOW</option>
+                  <option value="ALL EQUAL ONE">ALL EQUAL ONE</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please provide a valid NODES option.
+                </div>
+              </div>
+
+              <div class="col-md-12 mb-3">
+                <label for="COLOR">COLOR</label>
+                <select class="custom-select d-block w-100" id="COLOR" name="COLOR" required>
+                  <option value="rgb(129, 129, 129)">GREY</option>
+                  <option value="rgb(60, 60, 60)">BLACK</option>
+                  <option value="rgb(255,0,0)">RED</option>
+
+                </select>
+                <div class="invalid-feedback">
+                  Please provide a valid NODES option.
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-12 mb-3 text-center">
+              <label >The boundary value is calculated when it is exceeded.</label>
+            </div>
+
+
+            <a class="btn btn-primary btn-lg btn-block ajaxButton"  id="ajaxButton" href="javascript:void(0)">SUBMIT</a>
+          </form>
+          <!--//form-->
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy; <a href="/index">xushiliang.com</a></p>
+</footer>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/bootstrap-4.0.0/assets/js/vendor/jquery-slim.min.js" th:src="@{/bootstrap/js/jquery-slim.min.js}"><\/script>')</script>
+<script src="/bootstrap-4.0.0/assets/js/vendor/popper.min.js" th:src="@{/complexnetwork/bootstrap/js/popper.min.js}"></script>
+<script src="/bootstrap-4.0.0/dist/js/bootstrap.min.js" th:src="@{/complexnetwork/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../../../assets/js/vendor/holder.min.js" th:src="@{/complexnetwork/bootstrap/js/holder.min.js}"></script>
+
+<!--JQuery-->
+<script src="../../js/jquery-3.1.1.min.js" th:src="@{/complexnetwork/js/jquery-3.1.1.min.js}"></script>
+<script src="../../js/jquery.form.min.js" th:src="@{/complexnetwork/js/jquery.form.min.js}"></script>
+
+<!--异步操作-->
+<script src="../../js/admins/main.js" th:src="@{/complexNetwork/js/main.js}"></script>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
