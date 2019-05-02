@@ -17,6 +17,10 @@ public class Node {
 
     private int cc;//聚类系数
 
+    private String name;// 名称
+
+    private String type; // 类别
+
     public int getId() {
         return id;
     }
@@ -49,6 +53,30 @@ public class Node {
         this.cc = cc;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Node(int id, int category, int value, int cc, String name, String type) {
+        this.id = id;
+        this.category = category;
+        this.value = value;
+        this.cc = cc;
+        this.name = name;
+        this.type = type;
+    }
 
     public Node(int id, int category, int value, int cc) {
         this.id = id;
@@ -68,6 +96,8 @@ public class Node {
                 ", category=" + category +
                 ", value=" + value +
                 ", cc=" + cc +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }
