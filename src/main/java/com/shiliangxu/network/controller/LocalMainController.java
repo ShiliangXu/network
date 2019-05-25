@@ -88,6 +88,7 @@ public class LocalMainController {
 
         //显示各个节点度数的一维数组
         List<Node> nodes = socialNetworkService.getNodes("D:\\MyClouds\\PROJECT\\network\\src\\main\\java\\com\\shiliangxu\\other\\friends_drop_duplicate.csv");
+        nodes = socialNetworkService.CascadeModel(nodes, 5, 0.2);
         Object nodesJ= JSON.toJSON(nodes);
 
         List<Link> links = socialNetworkService.getLinks(nodes);
@@ -122,6 +123,11 @@ public class LocalMainController {
         model.addAttribute("Nbiggest", Nbiggest);
         LoggerUtil.logx(this.getClass().getName(),"生成了拥有"+totalnumber+"个节点的图:NPT:"+totalnumber+"---"+ initialprobability+"---"+influencecoefficient);
         return  new ModelAndView("complexNetwork/index1", "model", model);
+    }
+
+    @GetMapping("/index2")
+    public String index2() {
+        return "complexNetwork/index2";
     }
 
 //    //  社交网络分析专用

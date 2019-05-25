@@ -18,4 +18,10 @@ public interface SocialNetworkService {
     List<Node> getNodes(String FileLocation);
 
     List<Link> getLinks(List<Node> nodes);
+
+    List<Node> CascadeModel(List<Node> nodes, int startNumber, double P);
+
+
+
+
 }
